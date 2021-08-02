@@ -3,8 +3,11 @@ import { Row, Col } from 'react-bootstrap'
 
 import ProfileSection from '../components/Profile/ProfileSection'
 import ConfessionsGrid from '../components/Confessions/ConfessionsGrid'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
-const HomeScreen = () => {
+const HomeScreen = ({ auth }) => {
+    if (!auth.uid) <Redirect to='/explore' />
     return (
             <Row>
                 <Col sm={12} md={12} lg={7} xl={8}>
@@ -17,4 +20,11 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(HomeScreen)
