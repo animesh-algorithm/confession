@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 const HomeScreen = ({ auth }) => {
-    if (!auth.uid) <Redirect to='/explore' />
+    if (!auth.uid) return <Redirect to='/explore' />
     return (
             <Row>
                 <Col sm={12} md={12} lg={7} xl={8}>
