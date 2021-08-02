@@ -1,4 +1,4 @@
-import { SIGNIN_ERROR, SIGNIN_SUCCESS, SIGNUP_ERROR, SIGNUP_SUCCESS } from "../constants/auth"
+import { SIGNIN_ERROR, SIGNIN_SUCCESS, SIGNOUT_ERROR, SIGNOUT_SUCCESS, SIGNUP_ERROR, SIGNUP_SUCCESS } from "../constants/auth"
 
 const initState = {
   auth: {
@@ -28,6 +28,18 @@ export default (state=initState, action) => {
             }
         case SIGNUP_ERROR:
             console.log('Signup Error')
+            return {
+                ...state,
+                authError: action.error
+            }
+        case SIGNOUT_SUCCESS:
+            console.log('Signout Success')
+            return {
+                ...state,
+                authError: null
+            }   
+        case SIGNOUT_ERROR:
+            console.log('Signout Error')
             return {
                 ...state,
                 authError: action.error

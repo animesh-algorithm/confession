@@ -1,8 +1,10 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { signOut } from '../../redux/actions/auth'
 
-const SignedInLinks = () => {
+const SignedInLinks = ({ signOut }) => {
     return (
         <Navbar id="basic-navbar-nav" className='right'>
             <Nav className="mr-auto">
@@ -19,7 +21,7 @@ const SignedInLinks = () => {
                     <Nav.Link><i className="fas fa-compass"></i></Nav.Link>
                 </LinkContainer>
                 <LinkContainer to='/explore'>
-                    <Nav.Link><i className="fas fa-sign-out-alt"></i></Nav.Link>
+                    <Nav.Link onClick={signOut}><i className="fas fa-sign-out-alt"></i></Nav.Link>
                 </LinkContainer>  
                 <LinkContainer to='/account'>
                     <Nav.Link>
@@ -31,4 +33,10 @@ const SignedInLinks = () => {
     )
 }
 
-export default SignedInLinks
+const mapDispatchToProps = (dispatch) => {
+    return {
+        signOut: () => dispatch(signOut())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(SignedInLinks)

@@ -1,4 +1,4 @@
-import { SIGNIN_SUCCESS, SIGNIN_ERROR, SIGNUP_ERROR, SIGNUP_SUCCESS } from "../constants/auth"
+import { SIGNIN_ERROR, SIGNIN_SUCCESS, SIGNOUT_ERROR, SIGNOUT_SUCCESS, SIGNUP_ERROR, SIGNUP_SUCCESS } from "../constants/auth"
 
 export const signIn = (credentials) => async (dispatch, getState, { getFirebase }) => {
     try {
@@ -36,5 +36,15 @@ export const signUp = (credentials) => async (dispatch, getState, { getFirebase,
         dispatch({
             type: SIGNUP_ERROR, error
         })
+    }
+}
+
+export const signOut = () => {
+    return async (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase()
+
+        await firebase.auth().signOut()
+
+        dispatch({ type: SIGNOUT_SUCCESS })
     }
 }
