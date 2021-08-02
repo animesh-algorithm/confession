@@ -1,11 +1,17 @@
 import { useState } from 'react'
+import { connect } from 'react-redux'
 import { Navbar, Nav, Container, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-const Header = () => {
+import SignedInLinks from './SignedInLinks'
+import SignedOutLinks from './SignedOutLinks'
+
+const Header = ({ auth }) => {
     const [currUser, SetCurrUser] = useState([{
         profilePic: 'https://avatars.githubusercontent.com/u/48760865?v=4'
     }])
+
+    const showNavLinks = () => auth.uid ? <SignedInLinks /> : <SignedOutLinks />
 
     return (
         <header>
@@ -14,31 +20,18 @@ const Header = () => {
                     <LinkContainer to='/'>
                         <Navbar.Brand>Confession</Navbar.Brand>
                     </LinkContainer>
-                    <Navbar id="basic-navbar-nav" className='right'>
-                        <Nav className="mr-auto">
-                            <LinkContainer to='/'>
-                                <Nav.Link><i className="fas fa-home"></i></Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/messenger'>
-                                <Nav.Link><i className="fas fa-inbox"></i></Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/likes'>
-                                <Nav.Link><i className="fas fa-heart"></i></Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/explore'>
-                                <Nav.Link><i className="fas fa-compass"></i></Nav.Link>
-                            </LinkContainer>
-                            <LinkContainer to='/account'>
-                                <Nav.Link>
-                                    <img src="https://avatars.githubusercontent.com/u/48760865?v=4" style={{borderRadius: '50%', width: '40px', height: '40px', marginTop: '-7px'}}/>
-                                </Nav.Link>
-                            </LinkContainer>
-                        </Nav>
-                    </Navbar>
+                    {showNavLinks()}
                 </Container>
             </Navbar>
         </header>
     )
 }
 
-export default Header
+const mapStateToProps = (state) => {
+    console.log(state)
+    return {
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(Header)
