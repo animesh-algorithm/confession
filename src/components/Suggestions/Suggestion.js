@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { followUser } from '../../redux/actions/follow'
 
 const Suggestion = ({ suggestion, following, followers, followUser }) => {
-    console.log(suggestion)
     return (
         <Row className='m-auto'>
             <Card.Img src="https://avatars.githubusercontent.com/u/48760865?v=4" className='mr-2' style={{borderRadius: '50%', width: '50px', height: '50px'}} />

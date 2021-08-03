@@ -5,6 +5,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { connect } from 'react-redux'
 import { followUser } from '../../redux/actions/follow'
 
+import ConfessionsActions from './ConfessionsActions'
+
 const Confession = ({ confession, followUser, followers, following }) => {
     return (
         <Card className='bg-dark'>
@@ -20,21 +22,7 @@ const Confession = ({ confession, followUser, followers, following }) => {
                 {confession.content.substring(0, 100)}
             </Container>
             <Card className='bg-dark pl-3 pt-2 pb-2 pr-3'>
-                <Row>
-                    <Col>
-                        <LinkContainer to='#'>
-                            <Card.Link className='text-white'><i className='fas fa-heart'></i></Card.Link>
-                        </LinkContainer>
-                        <LinkContainer to='#'>
-                            <Card.Link className='text-white'><i className='fas fa-comment'></i></Card.Link>
-                        </LinkContainer>
-                    </Col>
-                    <Col onClick={() => followUser(confession.userId)}>
-                        <LinkContainer to='#'>
-                            <Card.Link className='float-right text-white'>{confession.userId === 'XBODMyuxsjQCw7LDM6ivYt0Atqq1' ? '' : following?.includes(confession.userId) ? 'Unfollow' : 'Follow'}</Card.Link>
-                        </LinkContainer>
-                    </Col>
-                </Row>
+                <ConfessionsActions following={following} confession={confession} followUser={followUser} />      
             </Card>
         </Card>
     )
