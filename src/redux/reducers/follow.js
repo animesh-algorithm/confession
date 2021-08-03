@@ -1,4 +1,4 @@
-import { FOLLOW_SUCCESS, FOLLOW_ERROR } from "../constants/follow"
+import { FOLLOW_SUCCESS, FOLLOW_ERROR, UNFOLLOW_SUCCESS } from "../constants/follow"
 
 const initState = {
     follow: {followError: null}
@@ -17,6 +17,12 @@ export default (state=initState, action) => {
             return {
                 ...state,
                 followError: action.error
+            }
+        case UNFOLLOW_SUCCESS:
+            console.log('unfollow success')
+            return {
+                ...state,
+                followError: null
             }
         default:
             return state
