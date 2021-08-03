@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -11,33 +11,15 @@ import Profile from './Profile'
 import Suggestion from '../Suggestions/Suggestion'
 import SuggestionsHeader from '../Suggestions/SuggestionsHeader'
 
-const ProfileSection = ({ profile }) => {
-    const [suggestions, setSuggestions] = useState([
-        {
-            username: 'animesharm4',
-            fname: 'Animesh',
-            lname: 'Sharma'
-        },
-        {
-            username: 'animesharm4',
-            fname: 'Animesh',
-            lname: 'Sharma'
-        },
-        {
-            username: 'animesharm4',
-            fname: 'Animesh',
-            lname: 'Sharma'
-        }
-    ])
-
-    const showSuggestions = () => (
-        suggestions.map((suggestion, i) => (
-            <Suggestion suggestion={suggestion} key={i} />
+const ProfileSection = ({ profile, users }) => {
+    console.log(users)
+    const showSuggestions = () => {
+        return (users?.map((suggestion, i) => (
+            <Suggestion suggestion={suggestion} key={suggestion.id} />
         ))
-    )
+    )}
 
     return (
-        <div>
             <Card className='bg-dark position-fixed'>
                 <Profile profile={profile} />
                 <SuggestionsHeader />
@@ -45,14 +27,24 @@ const ProfileSection = ({ profile }) => {
                     {showSuggestions()}
                 </Col>
             </Card>
-        </div>
     )
 }
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        users: state.firestore.ordered.profile
     }
 }
 
-export default connect(mapStateToProps)(ProfileSection)
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         getUsers: () => dispatch(getUsers())
+//     }
+// }
+
+export default compose(
+    connect(mapStateToProps), firestoreConnect([
+        {collection: 'profile'}
+    ])
+)(ProfileSection)
