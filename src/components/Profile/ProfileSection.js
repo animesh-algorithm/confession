@@ -38,7 +38,7 @@ const ProfileSection = ({ profile }) => {
 
     return (
         <div>
-            <Card className='bg-dark'>
+            <Card className='bg-dark position-fixed'>
                 <Profile profile={profile} />
                 <SuggestionsHeader />
                 <Col>
@@ -50,7 +50,6 @@ const ProfileSection = ({ profile }) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         profile: state.firebase.profile
     }

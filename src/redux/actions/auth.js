@@ -28,7 +28,9 @@ export const signUp = (credentials) => async (dispatch, getState, { getFirebase,
         await firestore.collection('profile').doc(response.user.uid).set({
             fname: credentials.fname,
             lname: credentials.lname,
-            username: credentials.email.split('@')[0]
+            username: credentials.email.split('@')[0],
+            followers: [response.user.uid],
+            following: [response.user.uid]
         })
 
         dispatch({ type: 'SIGNUP_SUCCESS' })

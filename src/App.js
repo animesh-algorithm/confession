@@ -13,7 +13,7 @@ import './App.css'
 const App = () => {
   return (
     <Router>
-      <Header />
+      <Header className='position-fixed' />
       <main className="py-3 text-white container-fluid">
           <Route path='/' exact component={HomeScreen} />
           <Route path='/signin' component={SignIn} />
