@@ -12,7 +12,6 @@ import Suggestion from '../Suggestions/Suggestion'
 import SuggestionsHeader from '../Suggestions/SuggestionsHeader'
 
 const ProfileSection = ({ profile, users }) => {
-    console.log(users)
     const showSuggestions = () => {
         return (users?.map((suggestion, i) => (
             <Suggestion suggestion={suggestion} key={suggestion.id} />
@@ -24,7 +23,9 @@ const ProfileSection = ({ profile, users }) => {
                 <Profile profile={profile} />
                 <SuggestionsHeader />
                 <Col>
-                    {showSuggestions()}
+                    <div style={{overflowY: 'scroll', height: '300px' }}>
+                        {showSuggestions()}
+                    </div>
                 </Col>
             </Card>
     )
