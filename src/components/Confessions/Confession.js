@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 import { followUser } from '../../redux/actions/follow'
 
 import ConfessionsActions from './ConfessionsActions'
+import { getConfession } from '../../redux/actions/confessions'
 
-const Confession = ({ confession, followUser, followers, following }) => {
+const Confession = ({ confession, followUser, followers, following, getConfession }) => {
     return (
         <Card className='bg-dark overflow-hidden border-white'>
             <Row className='ml-2'>
@@ -19,11 +20,11 @@ const Confession = ({ confession, followUser, followers, following }) => {
                 </Card.Text>
             </Row>
             <Row className='ml-2'>
-                <span className='text-muted'>10 views · {moment(confession.createdAt.toDate()).endOf('day').fromNow()}</span>
+                <span className='text-muted'>{confession.views | 0} views · {moment(confession.createdAt.toDate()).endOf('day').fromNow()}</span>
             </Row>
             <Container fluid>
                 {confession.content.substring(0, 100)}
-                <LinkContainer to={`/confession/${confession.id}`}>
+                <LinkContainer to={`/confession/${confession.id}`} onClick={() => getConfession(confession.id)}>
                     <Card.Link className='text-secondary'> Read More...</Card.Link>
                 </LinkContainer>
             </Container>
@@ -43,7 +44,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        followUser: (beneficiaryId) => dispatch(followUser(beneficiaryId))
+        followUser: (beneficiaryId) => dispatch(followUser(beneficiaryId)),
+        getConfession: (id) => dispatch(getConfession(id))
     }
 }
 

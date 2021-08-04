@@ -1,4 +1,4 @@
-import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION } from '../constants/confession'
+import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION } from '../constants/confession'
 
 export const createConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
@@ -41,10 +41,60 @@ export const createConfession = (confession) => async (dispatch, getState, { get
 export const getConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
         const firestore = getFirestore()
-        const confession = await firestore.collection('confession').doc(id).get()
+        const confession = await firestore.collection('confessions').doc(id).get()
+        let views = confession.data().views
+        if (!views) {
+            views = 1
+        } else {
+            views++
+        }
+        await firestore.collection('confessions').doc(id).update({
+            views: views
+        })
         dispatch({
             type: GET_CONFESSION,
             confession
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const likeConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+        const firestore = getFirestore()
+        
+        const uid = getState().firebase.auth.uid
+
+        const confession = await firestore.collection('confessions').doc(id).get()
+        let likes = confession.data().likes
+        if (!likes) {
+            likes = []
+        }
+        likes.push(uid)
+
+        const user = await firestore.collection('profile').doc(uid).get()
+        let likedConfessions = user.data().likedConfessions
+        if (!likedConfessions) {
+            likedConfessions = []
+        }
+        likedConfessions.push(id)
+
+        likes = new Set(likes)
+        likedConfessions = new Set(likedConfessions)
+
+        likes = [...likes]
+        likedConfessions = [...likedConfessions]
+
+        await firestore.collection('confessions').doc(id).update({
+            likes: likes
+        })
+        await firestore.collection('profile').doc(uid).update({
+            likedConfessions: likedConfessions
+        })
+
+        dispatch({
+            type: LIKE_CONFESSION
         })
     } catch (error) {
         console.log(error)

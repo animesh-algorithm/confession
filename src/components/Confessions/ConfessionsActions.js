@@ -4,12 +4,14 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { connect } from 'react-redux'
 import { unfollowUser } from '../../redux/actions/follow'
+import { likeConfession } from '../../redux/actions/confessions'
 
-const ConfessionsActions = ({ following, confession, followUser, auth, unfollowUser }) => {
+const ConfessionsActions = ({ following, confession, followUser, auth, unfollowUser, likeConfession }) => {
 
-    const handleFollow = () => {
+    const handleAuthAction = (e) => {
         if (auth.uid) {
-            followUser(confession.userId)
+            if (e.target.innerHTML === 'Follow') followUser(confession.userId)
+            if (e.target.className==='fas fa-heart') likeConfession(confession.id)
         } else {
             alert('Login first!')
         }
@@ -18,8 +20,8 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
     return (
         <Row>
             <Col>
-                <LinkContainer to='#'>
-                    <Card.Link className='text-white'><i className='fas fa-heart'> 0</i></Card.Link>
+                <LinkContainer to='#' onClick={handleAuthAction}>
+                    <Card.Link className='text-white'><i className='fas fa-heart'> {confession.likes?.length | 0}</i></Card.Link>
                 </LinkContainer>
                 <LinkContainer to='#'>
                     <Card.Link className='text-white'><i className='fas fa-comment'> 0</i></Card.Link>
@@ -32,7 +34,7 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
                         ? <Card.Link className='float-right text-white'></Card.Link>  
                         : following?.includes(confession.userId) 
                         ? <Card.Link className='float-right text-white' onClick={() => unfollowUser(confession.userId)}>Unfollow</Card.Link> 
-                        : <Card.Link className='float-right text-white' onClick={handleFollow}>Follow</Card.Link>
+                        : <Card.Link className='float-right text-white' onClick={handleAuthAction}>Follow</Card.Link>
                     }
                 </LinkContainer>
             </Col>
@@ -48,7 +50,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        unfollowUser: (beneficiaryId) => dispatch(unfollowUser(beneficiaryId))
+        unfollowUser: (beneficiaryId) => dispatch(unfollowUser(beneficiaryId)),
+        likeConfession: (id) => dispatch(likeConfession(id))
     }
 }
 
