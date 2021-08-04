@@ -10,6 +10,7 @@ import ConfessionDetail from './components/Confessions/ConfessionDetail'
 import Explore from './components/Explore/Explore'
 
 import './App.css'
+import ConfessionsGrid from './components/Confessions/ConfessionsGrid'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/confess' component={CreateConfession} />
           <Route path='/explore' component={Explore} />
           <Route path='/confession/:id' component={ConfessionDetail} /> 
+          <Route path='/likes' component={ConfessionsGrid} />
       </main>
     </Router>
   )

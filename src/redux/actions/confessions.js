@@ -1,4 +1,4 @@
-import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION } from '../constants/confession'
+import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION, UNLIKE_CONFESSION } from '../constants/confession'
 
 export const createConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
@@ -96,6 +96,34 @@ export const likeConfession = (id) => async (dispatch, getState, { getFirebase, 
         dispatch({
             type: LIKE_CONFESSION
         })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const unlikeConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+        const firestore = getFirestore()
+
+        const uid = getState().firebase.auth.uid
+
+        const confession = await firestore.collection('confessions').doc(id).get()
+        let likes = confession.data().likes
+        likes = likes.filter(id => id !== uid)
+
+        const user = await firestore.collection('profile').doc(uid).get()
+        let likedConfessions = user.data().likedConfessions
+        likedConfessions = likedConfessions.filter(confessionId => confessionId !== id)
+
+        await firestore.collection('confessions').doc(id).update({
+            likes: likes
+        })
+        await firestore.collection('profile').doc(uid).update({
+            likedConfessions: likedConfessions
+        })
+        dispatch({
+            type: UNLIKE_CONFESSION
+        })  
     } catch (error) {
         console.log(error)
     }

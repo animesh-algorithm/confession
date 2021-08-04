@@ -1,4 +1,4 @@
-import { CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION } from "../constants/confession"
+import { CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION, UNLIKE_CONFESSION } from "../constants/confession"
 
 export default (state=[], action) => {
     switch (action.type) {
@@ -13,6 +13,9 @@ export default (state=[], action) => {
             return action.confession
         case LIKE_CONFESSION:
             console.log('like succcess')
+            return state
+        case UNLIKE_CONFESSION:
+            console.log('unlike success')
             return state
         default:
             return state

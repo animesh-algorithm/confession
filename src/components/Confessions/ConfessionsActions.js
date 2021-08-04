@@ -4,14 +4,20 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { connect } from 'react-redux'
 import { unfollowUser } from '../../redux/actions/follow'
-import { likeConfession } from '../../redux/actions/confessions'
+import { likeConfession, unlikeConfession } from '../../redux/actions/confessions'
 
-const ConfessionsActions = ({ following, confession, followUser, auth, unfollowUser, likeConfession }) => {
+const ConfessionsActions = ({ following, confession, followUser, auth, unfollowUser, likeConfession, unlikeConfession }) => {
 
     const handleAuthAction = (e) => {
         if (auth.uid) {
             if (e.target.innerHTML === 'Follow') followUser(confession.userId)
-            if (e.target.className==='fas fa-heart') likeConfession(confession.id)
+            if (e.target.className === 'fas fa-heart') {
+                if (!confession.likes?.includes(auth.uid)) {
+                    likeConfession(confession.id)
+                } else {
+                    unlikeConfession(confession.id)
+                }
+            }
         } else {
             alert('Login first!')
         }
@@ -51,7 +57,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         unfollowUser: (beneficiaryId) => dispatch(unfollowUser(beneficiaryId)),
-        likeConfession: (id) => dispatch(likeConfession(id))
+        likeConfession: (id) => dispatch(likeConfession(id)),
+        unlikeConfession: (id) => dispatch(unlikeConfession(id))
     }
 }
 
