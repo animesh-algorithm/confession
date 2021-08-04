@@ -19,11 +19,11 @@ const ProfileSection = ({ profile, users }) => {
     )}
 
     return (
-            <Card className='bg-dark position-fixed'>
+            <Card className='bg-dark position-fixed border-white' style={{width: '450px'}}>
                 <Profile profile={profile} />
                 <SuggestionsHeader />
                 <Col>
-                    <div style={{overflowY: 'scroll', height: '300px' }}>
+                    <div style={{overflowY: 'scroll', height: `${window.innerHeight}` }}>
                         {showSuggestions()}
                     </div>
                 </Col>

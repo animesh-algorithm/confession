@@ -32,9 +32,9 @@ class CreateConfession extends Component {
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <textarea type="text" id='content' rows={5} cols={20} value={this.state.content} className="form-control bg-dark text-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
+                        <textarea type="text" id='content' rows={5} cols={20} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-secondary btn-block btn-sm">Submit</button>
+                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">Submit</button>
                     {/* <p className="forgot-password text-right">
                         Forgot <a href="#">password?</a>
                     </p> */}

@@ -40,7 +40,6 @@ export const unfollowUser = (beneficiaryId) => async (dispatch, getState, { getF
     try {
         const firestore = getFirestore()
         const userId = getState().firebase.auth.uid
-        console.log(beneficiaryId)
 
         let userFollowing = getState().firebase.profile.following
         userFollowing = userFollowing.filter(id => id !== beneficiaryId)

@@ -14,7 +14,7 @@ const Header = ({ auth }) => {
     const showNavLinks = () => auth.uid ? <SignedInLinks /> : <SignedOutLinks />
 
     return (
-            <Navbar bg='dark' variant='dark' expand='lg' className='sticky-top' collapseOnSelect>
+            <Navbar style={{background:'rgba(21, 0, 21, 0.5)', borderBottom: '1px solid white'}} variant='dark' expand='lg' className='sticky-top' collapseOnSelect>
                 <Container fluid>
                     <LinkContainer to='/'>
                         <Navbar.Brand>Confession</Navbar.Brand>

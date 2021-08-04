@@ -1,4 +1,4 @@
-import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR } from '../constants/confession'
+import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION } from '../constants/confession'
 
 export const createConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
@@ -35,5 +35,18 @@ export const createConfession = (confession) => async (dispatch, getState, { get
             type: CREATE_CONFESSION_ERROR,
             error
         })
+    }
+}
+
+export const getConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+        const firestore = getFirestore()
+        const confession = await firestore.collection('confession').doc(id).get()
+        dispatch({
+            type: GET_CONFESSION,
+            confession
+        })
+    } catch (error) {
+        console.log(error)
     }
 }

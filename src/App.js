@@ -6,6 +6,7 @@ import Header from './components/Header/Header'
 import SignIn from './components/Auth/SignIn'
 import SignUp from './components/Auth/SignUp'
 import CreateConfession from './components/Confessions/CreateConfession'
+import ConfessionDetail from './components/Confessions/ConfessionDetail'
 import Explore from './components/Explore/Explore'
 
 import './App.css'
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/signup' component={SignUp} />
           <Route path='/confess' component={CreateConfession} />
           <Route path='/explore' component={Explore} />
+          <Route path='/confession/:id' component={ConfessionDetail} /> 
       </main>
     </Router>
   )

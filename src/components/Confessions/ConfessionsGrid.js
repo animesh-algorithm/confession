@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Col, Card, Row } from 'react-bootstrap'
-
 import Confession from './Confession'
 import CreateConfession from './CreateConfession'
 
@@ -11,12 +10,11 @@ import CreateConfession from './CreateConfession'
 const ConfessionsGrid = ({ confessions }) => {
     const showConfessions = () => (
         confessions && confessions.map((confession, i) => (
-            <Col key={i} sm={12} md={8} lg={8} xl={4} className='mb-2' >
+            <Col key={confession.id} sm={12} md={8} lg={8} xl={4} className='mb-2' >
                 <Confession confession={confession} />
             </Col>
         ))
     )
-
     return (
         <Row>
             <Col sm={12} md={12} lg={8} xl={8}>
@@ -35,6 +33,6 @@ const mapStateToProps = (state) => {
 
 export default compose(
     connect(mapStateToProps), firestoreConnect([
-        { collection: 'confessions' }
+        { collection: 'confessions', limit: 20, orderBy: ['createdAt', 'desc'] }
     ])
 )(ConfessionsGrid)
