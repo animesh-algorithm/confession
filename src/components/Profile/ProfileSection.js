@@ -23,7 +23,7 @@ const ProfileSection = ({ profile, users }) => {
                 <Profile profile={profile} />
                 <SuggestionsHeader />
                 <Col>
-                    <div style={{overflowY: 'scroll', height: `${window.innerHeight}` }}>
+                    <div style={{overflowY: 'scroll', height: `350px` }}>
                         {showSuggestions()}
                     </div>
                 </Col>

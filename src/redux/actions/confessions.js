@@ -1,4 +1,4 @@
-import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION, UNLIKE_CONFESSION } from '../constants/confession'
+import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION, UNLIKE_CONFESSION, DELETE_CONFESSION, UPDATE_CONFESSION } from '../constants/confession'
 
 export const createConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
@@ -124,6 +124,33 @@ export const unlikeConfession = (id) => async (dispatch, getState, { getFirebase
         dispatch({
             type: UNLIKE_CONFESSION
         })  
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+        const firestore = getFirestore()
+        await firestore.collection('confessions').doc(id).delete()
+        dispatch({
+            type: DELETE_CONFESSION
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const updateConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+        const { content, id } = confession
+        const firestore = getFirestore()
+        await firestore.collection('confessions').doc(id).update({
+            content: content
+        })
+        dispatch({
+            type: UPDATE_CONFESSION
+        })
     } catch (error) {
         console.log(error)
     }

@@ -2,9 +2,9 @@ import React from 'react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { createConfession } from '../../redux/actions/confessions'
+import { createConfession, updateConfession } from '../../redux/actions/confessions'
 import { withRouter } from 'react-router'
-
+import { flushSync } from 'react-dom'
 
 class CreateConfession extends Component {
     state = {
@@ -18,23 +18,30 @@ class CreateConfession extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.createConfession(this.state)
+        if (e.target.innerText === 'Confess') this.props.createConfession(this.state)
+        if (e.target.innerText === 'Edit') this.props.editConfession({...this.state, id: this.props.editableConfession.id})
         this.reset()
+        this.props.edit(null)
     }
     reset = (e) => {
         this.setState({
             content: ""
         })
     }
-
+    componentWillReceiveProps(props) {
+        this.setState({
+            content: props.editableConfession ? props.editableConfession?.content : ""
+        })
+    }
     render() {
+        
         return (
-            <div>
+            <div id='create-confession'>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <textarea type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
+                        <textarea required type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">Submit</button>
+                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">{this.props.editableConfession ? 'Edit' : 'Confess'}</button>
                 </form>
             </div>
         )
@@ -44,6 +51,7 @@ class CreateConfession extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         createConfession: (confession) => dispatch(createConfession(confession)),
+        editConfession: (confession) => dispatch(updateConfession(confession))
     }
 }
 

@@ -7,7 +7,6 @@ import { unfollowUser } from '../../redux/actions/follow'
 import { likeConfession, unlikeConfession } from '../../redux/actions/confessions'
 
 const ConfessionsActions = ({ following, confession, followUser, auth, unfollowUser, likeConfession, unlikeConfession }) => {
-
     const handleAuthAction = (e) => {
         if (auth.uid) {
             if (e.target.innerHTML === 'Follow') followUser(confession.userId)
@@ -34,7 +33,7 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
                     <Card.Link className='text-white'>{likeButton()}</Card.Link>
                 </LinkContainer>
                 <LinkContainer to='#'>
-                    <Card.Link className='text-white'><i className='fas fa-comment'> 0</i></Card.Link>
+                    <Card.Link className='text-white'><i className='far fa-comment'> 0</i></Card.Link>
                 </LinkContainer>
             </Col>
             <Col md={2}>

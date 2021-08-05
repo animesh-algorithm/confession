@@ -11,6 +11,7 @@ import Confession from './Confession'
 import CreateConfession from './CreateConfession'
 
 const ConfessionsGrid = ({ confessions, auth }) => {
+    const [editableConfession, setEditableConfession] = useState(null)
     const location = useLocation()
     if (location.pathname === '/likes') {
         confessions = confessions.filter(confession => {
@@ -20,10 +21,14 @@ const ConfessionsGrid = ({ confessions, auth }) => {
         })
     }
 
+    const edit = (confession) => {
+        setEditableConfession(confession)
+    }
+
     const showConfessions = () => (
         confessions && confessions.map((confession, i) => (
             <div key={confession.id}>
-                <Confession confession={confession} />
+                <Confession confession={confession} edit={edit} />
             </div>
         ))
     )
@@ -40,7 +45,7 @@ const ConfessionsGrid = ({ confessions, auth }) => {
             className='my-masonry-grid'
             columnClassName='my-masonry-grid_column'
         >
-            {location.pathname !== '/likes' ? <CreateConfession />: null}
+            {location.pathname !== '/likes' ? <CreateConfession editableConfession={editableConfession} edit={edit} />: null}
             {showConfessions()}
         </Masonry>
     )
