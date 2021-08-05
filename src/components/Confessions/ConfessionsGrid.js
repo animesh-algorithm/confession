@@ -56,6 +56,6 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
     connect(mapStateToProps), firestoreConnect([
-        { collection: 'confessions', limit: 20, orderBy: ['createdAt', 'desc'] }
+        { collection: 'confessions', limit: 20, orderBy: ['createdAt', 'desc'], startAfter: 0 }
     ])
 )(ConfessionsGrid)

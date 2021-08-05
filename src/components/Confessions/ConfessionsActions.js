@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Row, Col, Container} from 'react-bootstrap'
+import { Card, Row, Col, Container, Nav} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { connect } from 'react-redux'
@@ -11,7 +11,7 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
     const handleAuthAction = (e) => {
         if (auth.uid) {
             if (e.target.innerHTML === 'Follow') followUser(confession.userId)
-            if (e.target.className === 'fas fa-heart') {
+            if (e.target.className === 'fas fa-heart' || e.target.className === 'far fa-heart') {
                 if (!confession.likes?.includes(auth.uid)) {
                     likeConfession(confession.id)
                 } else {
@@ -23,11 +23,15 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
         }
     }
 
+    const likeButton = () => (
+        <i className={`${!confession.likes?.includes(auth.uid) ? 'far' : 'fas'} fa-heart`}> {confession.likes?.length | 0}</i>
+    )
+
     return (
         <Row>
             <Col>
                 <LinkContainer to='#' onClick={handleAuthAction}>
-                    <Card.Link className='text-white'><i className='fas fa-heart'> {confession.likes?.length | 0}</i></Card.Link>
+                    <Card.Link className='text-white'>{likeButton()}</Card.Link>
                 </LinkContainer>
                 <LinkContainer to='#'>
                     <Card.Link className='text-white'><i className='fas fa-comment'> 0</i></Card.Link>
