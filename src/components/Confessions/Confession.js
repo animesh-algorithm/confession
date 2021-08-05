@@ -20,7 +20,7 @@ const Confession = ({ confession, followUser, followers, following, getConfessio
                     <LinkContainer to='#create-confession' onClick={() => edit(confession)}>
                         <Card.Link className='text-white'><i className='fas fa-edit'></i></Card.Link>
                     </LinkContainer>
-                    <LinkContainer to='#' onClick={() => deleteConfession(confession.id)}>
+                    <LinkContainer to='/' onClick={() => deleteConfession(confession.id)}>
                         <Card.Link className='text-white'><i className='fas fa-trash-alt'> </i></Card.Link>
                     </LinkContainer>
                 </>

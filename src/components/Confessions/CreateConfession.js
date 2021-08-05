@@ -34,14 +34,13 @@ class CreateConfession extends Component {
         })
     }
     render() {
-        
         return (
             <div id='create-confession'>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <textarea required type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">{this.props.editableConfession ? 'Edit' : 'Confess'}</button>
+                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">{this.props.editableConfession || this.props.location.pathname.startsWith('/confession') ? 'Edit' : 'Confess'}</button>
                 </form>
             </div>
         )

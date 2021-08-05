@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
-import Confession from './Confession'
-
 import { Row, Col, Container } from 'react-bootstrap'
 
+import Confession from './Confession'
+import CreateConfession from './CreateConfession'
+
 const ConfessionDetail = ({ confession, auth }) => {
+    const [editableConfession, setEditableConfession] = useState(null)
+    const edit = (confession) => {
+        setEditableConfession(confession)
+    }
     return (
         <Container fluid>
             <Row>
-                <Col lg={8} md={8} sm={12}><Confession confession={confession} /></Col>
+                <Col lg={8} md={8} sm={12}><Confession confession={confession} edit={edit} /></Col>
+                <Col lg={4} md={4} sm={12}><CreateConfession editableConfession={editableConfession} edit={edit} /></Col>
             </Row>
         </Container>
     )
