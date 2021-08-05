@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { useLocation } from 'react-router'
 import { firestoreConnect } from 'react-redux-firebase'
 import { Col, Card, Row } from 'react-bootstrap'
+
+import Masonry from 'react-masonry-css'
+
 import Confession from './Confession'
 import CreateConfession from './CreateConfession'
-
-import { useLocation } from 'react-router'
 
 const ConfessionsGrid = ({ confessions, auth }) => {
     const location = useLocation()
@@ -20,18 +22,27 @@ const ConfessionsGrid = ({ confessions, auth }) => {
 
     const showConfessions = () => (
         confessions && confessions.map((confession, i) => (
-            <Col key={confession.id} sm={12} md={8} lg={8} xl={4} className='mb-2' >
+            <div key={confession.id}>
                 <Confession confession={confession} />
-            </Col>
+            </div>
         ))
     )
+
+    const breakpoints = {
+        default: location.pathname === '/explore' ? 4 : location.pathname === '/likes' ? 5 : 3,
+        1100: 2,
+        700: 1
+    }
+
     return (
-        <Row className='masonry'>
-            {location.pathname !== '/likes' ? (<Col sm={12} md={12} lg={8} xl={8}>
-                <CreateConfession />
-            </Col>) : null}
+        <Masonry 
+            breakpointCols={breakpoints}
+            className='my-masonry-grid'
+            columnClassName='my-masonry-grid_column'
+        >
+            {location.pathname !== '/likes' ? <CreateConfession />: null}
             {showConfessions()}
-        </Row>
+        </Masonry>
     )
 }
 
