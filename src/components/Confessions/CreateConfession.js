@@ -38,9 +38,9 @@ class CreateConfession extends Component {
             <div id='create-confession' className={`${this.props.location.pathname.startsWith('/confession') ? 'position-fixed' : ''}`}>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <textarea required type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
+                        <textarea required type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control text-white border-white" style={{background: 'black'}} placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">{this.props.editableConfession || this.props.location.pathname.startsWith('/confession') ? 'Edit' : 'Confess'}</button>
+                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white" style={{background: 'black'}}>{this.props.editableConfession || this.props.location.pathname.startsWith('/confession') ? 'Edit' : 'Confess'}</button>
                 </form>
             </div>
         )

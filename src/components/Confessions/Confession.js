@@ -30,7 +30,7 @@ const Confession = ({ confession, followUser, followers, following, getConfessio
     )
 
     return (
-        <Card className='bg-dark overflow-hidden border-white'>
+        <Card className='overflow-hidden border-white' style={{background: 'black'}}>
             <Row className='ml-2'>
                 <Card.Img src="https://avatars.githubusercontent.com/u/48760865?v=4" className='mr-2' style={{borderRadius: '50%', width: '50px', height: '50px'}} />
                 <Card.Text>
@@ -48,7 +48,7 @@ const Confession = ({ confession, followUser, followers, following, getConfessio
                     <Card.Link className='text-secondary'>{location.pathname === `/confession/${confession.id}` ? '' : ' Read More...'}</Card.Link>
                 </LinkContainer>
             </Container>
-            <Card className='bg-dark pl-3 pt-2 pb-2 pr-3'>
+            <Card className='pl-3 pt-2 pb-2 pr-3' style={{background: 'black'}}>
                 <ConfessionsActions following={following} confession={confession} followUser={followUser} />      
             </Card>
         </Card>

@@ -35,9 +35,9 @@ class CreateConfession extends Component {
             <div>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <textarea required type="text" id='content' rows={5} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Comment here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
+                        <textarea required type="text" id='content' rows={5} cols={50} value={this.state.content} className="form-control text-white border-white" style={{background: 'black'}} placeholder={`Comment here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white">Comment</button>
+                    <button type="submit" className="btn btn-secondary btn-block btn-sm border-white" style={{background: 'black'}}>Comment</button>
                 </form>
                 <hr />
             </div>

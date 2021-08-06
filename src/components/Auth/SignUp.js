@@ -33,32 +33,32 @@ class SignUp extends Component {
 
                     <div className="form-group">
                         <label>First Name</label>
-                        <input type="text" id='fname' className="form-control" placeholder="Enter First Name" onChange={this.handleChange} />
+                        <input style={{background: 'black'}} type="text" id='fname' className="form-control" placeholder="Enter First Name" onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
                         <label>Last Name</label>
-                        <input type="text" id='lname' className="form-control" placeholder="Enter Last Name" onChange={this.handleChange} />
+                        <input style={{background: 'black'}} type="text" id='lname' className="form-control" placeholder="Enter Last Name" onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
                         <label>Email address</label>
-                        <input type="email" id='email' className="form-control" placeholder="Enter email" onChange={this.handleChange} />
+                        <input style={{background: 'black'}} type="email" id='email' className="form-control" placeholder="Enter email" onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
                         <label>Password</label>
-                        <input type="password" id='password' className="form-control" placeholder="Enter password" onChange={this.handleChange} />
+                        <input style={{background: 'black'}} type="password" id='password' className="form-control" placeholder="Enter password" onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                            <input style={{background: 'black'}} type="checkbox" className="custom-control-input" id="customCheck1" />
                             <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                    <button style={{background: 'black'}} type="submit" className="btn border-white btn-primary btn-block">Sign Up</button>
                     {/* <p className="forgot-password text-right">
                         Forgot <a href="#">password?</a>
                     </p> */}

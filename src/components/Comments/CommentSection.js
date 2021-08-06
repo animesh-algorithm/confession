@@ -17,7 +17,7 @@ const CommentSection = ({ comments, confession }) => {
         ))
     )
     return (
-        <Card bg='dark' style={{border: '1px solid white'}} className='p-3'>
+        <Card style={{border: '1px solid white', background: 'black'}} className='p-3'>
             <div className='position-sticky'>
                 <Card.Title>{`${confession.comments?.length | 0}`} Comment{confession.comments?.length === 1 ? '' : 's'}</Card.Title>
                 <div>

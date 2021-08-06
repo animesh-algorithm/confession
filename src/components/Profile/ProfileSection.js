@@ -19,7 +19,7 @@ const ProfileSection = ({ profile, users }) => {
     )}
 
     return (
-            <Card className='bg-dark position-fixed border-white' style={{width: '450px'}}>
+            <Card className='position-fixed border-white' style={{width: '450px', background: 'black'}}>
                 <Profile profile={profile} />
                 <SuggestionsHeader />
                 <Col>
