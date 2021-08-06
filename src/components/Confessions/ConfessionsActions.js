@@ -26,6 +26,10 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
         <i className={`${!confession.likes?.includes(auth.uid) ? 'far' : 'fas'} fa-heart`}> {confession.likes?.length | 0}</i>
     )
 
+    const commentButton = () => (
+        <i className={`${!confession.commentsFrom?.includes(auth.uid) ? 'far' : 'fas'} fa-comment`}> {confession.comments?.length | 0}</i>
+    )
+
     return (
         <Row>
             <Col>
@@ -33,7 +37,7 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
                     <Card.Link className='text-white'>{likeButton()}</Card.Link>
                 </LinkContainer>
                 <LinkContainer to={`/confession/${confession.id}/#comments`}>
-                    <Card.Link className='text-white'><i className='far fa-comment'> {confession.comments?.length | 0}</i></Card.Link>
+                    <Card.Link className='text-white'>{commentButton()}</Card.Link>
                 </LinkContainer>
             </Col>
             <Col md={2}>
