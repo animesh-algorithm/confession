@@ -32,8 +32,8 @@ const ConfessionsActions = ({ following, confession, followUser, auth, unfollowU
                 <LinkContainer to='#' onClick={handleAuthAction}>
                     <Card.Link className='text-white'>{likeButton()}</Card.Link>
                 </LinkContainer>
-                <LinkContainer to='#'>
-                    <Card.Link className='text-white'><i className='far fa-comment'> 0</i></Card.Link>
+                <LinkContainer to={`/confession/${confession.id}/#comments`}>
+                    <Card.Link className='text-white'><i className='far fa-comment'> {confession.comments?.length | 0}</i></Card.Link>
                 </LinkContainer>
             </Col>
             <Col md={2}>

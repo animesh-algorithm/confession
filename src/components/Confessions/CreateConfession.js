@@ -35,7 +35,7 @@ class CreateConfession extends Component {
     }
     render() {
         return (
-            <div id='create-confession'>
+            <div id='create-confession' className={`${this.props.location.pathname.startsWith('/confession') ? 'position-fixed' : ''}`}>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <textarea required type="text" id='content' rows={10} cols={50} value={this.state.content} className="form-control bg-dark text-white border-white" placeholder={`Confess here${this.props.location.pathname === '/explore' ? ' Anonymously' : ''}...`} onChange={this.handleChange}></textarea>

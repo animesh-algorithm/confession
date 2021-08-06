@@ -7,6 +7,8 @@ import { Row, Col, Container } from 'react-bootstrap'
 import Confession from './Confession'
 import CreateConfession from './CreateConfession'
 
+import CommentSection from '../Comments/CommentSection'
+
 const ConfessionDetail = ({ confession, auth }) => {
     const [editableConfession, setEditableConfession] = useState(null)
     const edit = (confession) => {
@@ -15,7 +17,11 @@ const ConfessionDetail = ({ confession, auth }) => {
     return (
         <Container fluid>
             <Row>
-                <Col lg={8} md={8} sm={12}><Confession confession={confession} edit={edit} /></Col>
+                <Col lg={8} md={8} sm={12}>
+                    <Confession confession={confession} edit={edit} />
+                    <br />
+                    <CommentSection confession={confession} />
+                </Col>
                 {confession.userId === auth.uid ? <Col lg={4} md={4} sm={12}><CreateConfession editableConfession={editableConfession} edit={edit} /></Col> : null}
             </Row>
         </Container>

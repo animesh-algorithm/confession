@@ -43,7 +43,7 @@ const Confession = ({ confession, followUser, followers, following, getConfessio
                 <span className='text-muted'>{confession.views | 0} views · {moment(confession.createdAt?.toDate()).endOf('day').fromNow()}</span>
             </Row>
             <Container fluid>
-                {location.pathname !== `/confession/${confession.id}` ? confession.content.substring(0, 100) : confession.content}
+                {location.pathname !== `/confession/${confession.id}` ? confession.content?.substring(0, 100) : confession.content}
                 <LinkContainer to={`/confession/${confession.id}`} onClick={() => getConfession(confession.id)}>
                     <Card.Link className='text-secondary'>{location.pathname === `/confession/${confession.id}` ? '' : ' Read More...'}</Card.Link>
                 </LinkContainer>
