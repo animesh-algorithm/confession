@@ -10,7 +10,7 @@ import Masonry from "react-masonry-css";
 import Confession from "./Confession";
 import CreateConfession from "./CreateConfession";
 
-const ConfessionsGrid = ({ confessions, auth }) => {
+const ConfessionsGrid = ({ confessions, auth, profile }) => {
   const [editableConfession, setEditableConfession] = useState(null);
   const location = useLocation();
   if (location.pathname === "/likes") {
@@ -39,6 +39,8 @@ const ConfessionsGrid = ({ confessions, auth }) => {
         ? 4
         : location.pathname === "/likes"
         ? 5
+        : confessions.length === 1
+        ? 1
         : 3,
     1100: 2,
     700: 1,
@@ -50,7 +52,9 @@ const ConfessionsGrid = ({ confessions, auth }) => {
       className="my-masonry-grid"
       columnClassName="my-masonry-grid_column"
     >
-      {location.pathname !== "/likes" ? (
+      {location.pathname === `/${profile?.username}` ||
+      location.pathname === "/" ||
+      location.pathname === "/you" ? (
         <CreateConfession editableConfession={editableConfession} edit={edit} />
       ) : null}
       {showConfessions()}
@@ -60,11 +64,14 @@ const ConfessionsGrid = ({ confessions, auth }) => {
 
 const mapStateToProps = (state, props) => {
   const auth = state.firebase.auth;
+  const profiles = state.firestore.data.profile;
+  const profile = profiles ? profiles[auth.uid] : null;
   return {
     confessions: props.confessions
       ? props.confessions
       : state.firestore.ordered.confessions,
     auth: auth,
+    profile: profile,
   };
 };
 
@@ -76,6 +83,9 @@ export default compose(
       limit: 100,
       orderBy: ["createdAt", "desc"],
       startAfter: 0,
+    },
+    {
+      collection: "profile",
     },
   ])
 )(ConfessionsGrid);

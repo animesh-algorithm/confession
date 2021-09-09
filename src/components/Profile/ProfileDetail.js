@@ -22,9 +22,9 @@ const ProfileDetail = ({ profile, confessions }) => {
         <Col xs={12} md={6} lg={6} xl={6}>
           <Row className="mt-3">
             <Col>
-              <span className="cursor-pointer lead">{profile.username}</span>
+              <span className="cursor-pointer lead">{profile?.username}</span>
               <br />
-              <span className="mb-2 text-muted">{`${profile.fname} ${profile.lname}`}</span>
+              <span className="mb-2 text-muted">{`${profile?.fname} ${profile?.lname}`}</span>
             </Col>
             <Col>
               <LinkContainer to="/profile/edit">
@@ -39,8 +39,8 @@ const ProfileDetail = ({ profile, confessions }) => {
           <p className="lead">
             {`${confessions?.length | 0} Confessions`} &nbsp;&nbsp;·
             &nbsp;&nbsp;
-            {`${profile.followers?.length | 0} Followers`} &nbsp;&nbsp;·
-            &nbsp;&nbsp;{`${profile.following?.length | 0} Following`}
+            {`${profile?.followers?.length | 0} Followers`} &nbsp;&nbsp;·
+            &nbsp;&nbsp;{`${profile?.following?.length | 0} Following`}
           </p>
         </Col>
         <Col xs={12} md={2} lg={2} xl={2}></Col>
@@ -53,20 +53,37 @@ const ProfileDetail = ({ profile, confessions }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   let profiles = state.firestore.data.profile;
-  let profile = profiles ? profiles[state.firebase.auth.uid] : null;
-  profile = { ...profile, id: state.firebase.auth.uid };
-
   let confessions = state.firestore.data.confessions;
   let confessionIds = confessions && Object.keys(confessions);
-  confessions = confessions && Object.values(confessions);
-  confessions = confessions?.map((confession, i) => {
-    return { ...confession, id: confessionIds[i] };
-  });
-  confessions = confessions?.filter(
-    (confession) => confession?.userId === state.firebase.auth.uid
-  );
+  let profile = profiles ? profiles[state.firebase.auth.uid] : null;
+  let profileIds = profiles && Object.keys(profiles);
+  let username = props.match.params.username;
+
+  if (username === profile?.username || props.location.pathname === "/you") {
+    profile = { ...profile, id: state.firebase.auth.uid };
+    confessions = confessions && Object.values(confessions);
+    confessions = confessions?.map((confession, i) => {
+      return { ...confession, id: confessionIds[i] };
+    });
+    confessions = confessions?.filter(
+      (confession) => confession?.userId === state.firebase.auth.uid
+    );
+  } else {
+    profiles = profiles && Object.values(profiles);
+    profiles = profiles?.map((profile, i) => {
+      return { ...profile, id: profileIds[i] };
+    });
+    profile = profiles?.find((profile) => profile.username === username);
+    confessions = confessions && Object.values(confessions);
+    confessions = confessions?.map((confession, i) => {
+      return { ...confession, id: confessionIds[i] };
+    });
+    confessions = confessions?.filter(
+      (confession) => confession?.userId === profile?.id
+    );
+  }
   return {
     auth: state.firebase.auth,
     profile: profile,
@@ -82,6 +99,9 @@ export default compose(
       collection: "confessions",
       orderBy: ["createdAt", "desc"],
       startAfter: 0,
+    },
+    {
+      collection: "profiles",
     },
   ])
 )(ProfileDetail);

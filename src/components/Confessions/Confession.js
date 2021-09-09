@@ -73,15 +73,21 @@ const Confession = ({
 
   return (
     <Card className="overflow-hidden border-white" style={cardStyle}>
-      <Row className="ml-2">
-        <Card.Img src={profilePic} className="mr-2" style={profilePicStyles} />
-        <Card.Text>
-          {confession.username}
-          {editAndDeleteButton()}
-          <br />
-          <span className="mb-2 text-muted">{userFullName}</span>
-        </Card.Text>
-      </Row>
+      <LinkContainer to={`/${confession.username}`}>
+        <Row className="ml-2 cursor-pointer">
+          <Card.Img
+            src={profilePic}
+            className="mr-2"
+            style={profilePicStyles}
+          />
+          <Card.Text>
+            {confession.username}
+            {editAndDeleteButton()}
+            <br />
+            <span className="mb-2 text-muted">{userFullName}</span>
+          </Card.Text>
+        </Row>
+      </LinkContainer>
       <Row className="ml-2">
         <span className="text-muted">
           {viewsCount} views · {timestamp}

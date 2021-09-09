@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 import HomeScreen from "./screens/HomeScreen";
@@ -18,14 +18,18 @@ const App = () => {
     <Router>
       <Header className="position-fixed" />
       <main className="py-3 text-white container-fluid">
-        <Route path="/" exact component={HomeScreen} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/confess" component={CreateConfession} />
-        <Route path="/explore" component={Explore} />
-        <Route path="/confession/:id" component={ConfessionDetail} />
-        <Route path="/likes" component={ConfessionsGrid} />
-        <Route path="/you" component={ProfileDetail} />
+        <Switch>
+          <Route path="/" exact component={HomeScreen} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/confess" component={CreateConfession} />
+          <Route path="/explore" component={Explore} />
+          <Route path="/confession/:id" component={ConfessionDetail} />
+          <Route path="/likes" component={ConfessionsGrid} />
+          <Route path="/:username" component={ProfileDetail} />
+
+          <Route path="/you" component={ProfileDetail} />
+        </Switch>
       </main>
     </Router>
   );
