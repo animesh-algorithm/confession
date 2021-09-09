@@ -39,7 +39,7 @@ const ConfessionsGrid = ({ confessions, auth, profile }) => {
         ? 4
         : location.pathname === "/likes"
         ? 5
-        : confessions.length === 1
+        : confessions?.length === 1
         ? 1
         : 3,
     1100: 2,
