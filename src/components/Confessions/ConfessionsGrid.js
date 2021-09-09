@@ -1,66 +1,81 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { useLocation } from 'react-router'
-import { firestoreConnect } from 'react-redux-firebase'
-import { Col, Card, Row } from 'react-bootstrap'
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { useLocation } from "react-router";
+import { firestoreConnect } from "react-redux-firebase";
+import { Col, Card, Row } from "react-bootstrap";
 
-import Masonry from 'react-masonry-css'
+import Masonry from "react-masonry-css";
 
-import Confession from './Confession'
-import CreateConfession from './CreateConfession'
+import Confession from "./Confession";
+import CreateConfession from "./CreateConfession";
 
 const ConfessionsGrid = ({ confessions, auth }) => {
-    const [editableConfession, setEditableConfession] = useState(null)
-    const location = useLocation()
-    if (location.pathname === '/likes') {
-        confessions = confessions.filter(confession => {
-            if (confession.likes?.includes(auth.uid)) {
-                return confession
-            }
-        })
-    }
+  const [editableConfession, setEditableConfession] = useState(null);
+  const location = useLocation();
+  if (location.pathname === "/likes") {
+    confessions = confessions.filter((confession) => {
+      if (confession.likes?.includes(auth.uid)) {
+        return confession;
+      }
+    });
+  }
 
-    const edit = (confession) => {
-        setEditableConfession(confession)
-    }
+  const edit = (confession) => {
+    setEditableConfession(confession);
+  };
 
-    const showConfessions = () => (
-        confessions && confessions.map((confession, i) => (
-            <div key={confession.id}>
-                <Confession confession={confession} edit={edit} />
-            </div>
-        ))
-    )
+  const showConfessions = () =>
+    confessions &&
+    confessions.map((confession, i) => (
+      <div key={confession.id}>
+        <Confession confession={confession} edit={edit} />
+      </div>
+    ));
 
-    const breakpoints = {
-        default: location.pathname === '/explore' ? 4 : location.pathname === '/likes' ? 5 : 3,
-        1100: 2,
-        700: 1
-    }
+  const breakpoints = {
+    default:
+      location.pathname === "/explore"
+        ? 4
+        : location.pathname === "/likes"
+        ? 5
+        : 3,
+    1100: 2,
+    700: 1,
+  };
 
-    return (
-        <Masonry 
-            breakpointCols={breakpoints}
-            className='my-masonry-grid'
-            columnClassName='my-masonry-grid_column'
-        >
-            {location.pathname !== '/likes' ? <CreateConfession editableConfession={editableConfession} edit={edit} />: null}
-            {showConfessions()}
-        </Masonry>
-    )
-}
+  return (
+    <Masonry
+      breakpointCols={breakpoints}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
+      {location.pathname !== "/likes" ? (
+        <CreateConfession editableConfession={editableConfession} edit={edit} />
+      ) : null}
+      {showConfessions()}
+    </Masonry>
+  );
+};
 
 const mapStateToProps = (state, props) => {
-    const auth = state.firebase.auth
-    return {
-        confessions: state.firestore.ordered.confessions,
-        auth: auth
-    }
-}
+  const auth = state.firebase.auth;
+  return {
+    confessions: props.confessions
+      ? props.confessions
+      : state.firestore.ordered.confessions,
+    auth: auth,
+  };
+};
 
 export default compose(
-    connect(mapStateToProps), firestoreConnect([
-        { collection: 'confessions', limit: 20, orderBy: ['createdAt', 'desc'], startAfter: 0 }
-    ])
-)(ConfessionsGrid)
+  connect(mapStateToProps),
+  firestoreConnect([
+    {
+      collection: "confessions",
+      limit: 100,
+      orderBy: ["createdAt", "desc"],
+      startAfter: 0,
+    },
+  ])
+)(ConfessionsGrid);

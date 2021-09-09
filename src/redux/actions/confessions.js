@@ -1,157 +1,189 @@
-import {CREATE_CONFESSION_SUCCESS, CREATE_CONFESSION_ERROR, GET_CONFESSION, LIKE_CONFESSION, UNLIKE_CONFESSION, DELETE_CONFESSION, UPDATE_CONFESSION } from '../constants/confession'
+import {
+  CREATE_CONFESSION_SUCCESS,
+  CREATE_CONFESSION_ERROR,
+  GET_CONFESSION,
+  LIKE_CONFESSION,
+  UNLIKE_CONFESSION,
+  DELETE_CONFESSION,
+  UPDATE_CONFESSION,
+} from "../constants/confession";
 
-export const createConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const createConfession =
+  (confession) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const firestore = getFirestore()
+      const firestore = getFirestore();
 
-        if (confession.location === '/explore') {
-            await firestore.collection('confessions').add({
-                content: confession.content,
-                createdAt: new Date(),
-                username: 'anonymous',
-                userFname: 'Anonymous',
-                userLname: 'User',
-                userId: 'XBODMyuxsjQCw7LDM6ivYt0Atqq1'
-            })
-        } else {
-            const profile = getState().firebase.profile
-            const uid = getState().firebase.auth.uid
-            await firestore.collection('confessions').add({
-                content: confession.content,
-                createdAt: new Date(),
-                username: profile.username,
-                userFname: profile.fname,
-                userLname: profile.lname,
-                userId: uid
-            })
-        }
+      if (confession.location === "/explore") {
+        await firestore.collection("confessions").add({
+          content: confession.content,
+          createdAt: new Date(),
+          username: "anonymous",
+          userFname: "Anonymous",
+          userLname: "User",
+          userId: "XBODMyuxsjQCw7LDM6ivYt0Atqq1",
+        });
+      } else {
+        const profile = getState().firebase.profile;
+        const uid = getState().firebase.auth.uid;
+        await firestore.collection("confessions").add({
+          content: confession.content,
+          createdAt: new Date(),
+          username: profile.username,
+          userFname: profile.fname,
+          userLname: profile.lname,
+          userId: uid,
+        });
+      }
 
-        dispatch({
-            type: CREATE_CONFESSION_SUCCESS,
-            confession
-        })
+      dispatch({
+        type: CREATE_CONFESSION_SUCCESS,
+        confession,
+      });
     } catch (error) {
-        dispatch({
-            type: CREATE_CONFESSION_ERROR,
-            error
-        })
+      dispatch({
+        type: CREATE_CONFESSION_ERROR,
+        error,
+      });
     }
-}
+  };
 
-export const getConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const getConfession =
+  (id) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const firestore = getFirestore()
-        const confession = await firestore.collection('confessions').doc(id).get()
-        let views = confession.data().views
-        if (!views) {
-            views = 1
-        } else {
-            views++
-        }
-        await firestore.collection('confessions').doc(id).update({
-            views: views
-        })
-        dispatch({
-            type: GET_CONFESSION,
-            confession
-        })
+      const firestore = getFirestore();
+      const confession = await firestore
+        .collection("confessions")
+        .doc(id)
+        .get();
+      let views = confession.data().views;
+      if (!views) {
+        views = 1;
+      } else {
+        views++;
+      }
+      await firestore.collection("confessions").doc(id).update({
+        views: views,
+      });
+      dispatch({
+        type: GET_CONFESSION,
+        confession,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
-export const likeConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const likeConfession =
+  (id) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const firestore = getFirestore()
-        
-        const uid = getState().firebase.auth.uid
+      const firestore = getFirestore();
 
-        const confession = await firestore.collection('confessions').doc(id).get()
-        let likes = confession.data().likes
-        if (!likes) {
-            likes = []
-        }
-        likes.push(uid)
+      const uid = getState().firebase.auth.uid;
 
-        const user = await firestore.collection('profile').doc(uid).get()
-        let likedConfessions = user.data().likedConfessions
-        if (!likedConfessions) {
-            likedConfessions = []
-        }
-        likedConfessions.push(id)
+      const confession = await firestore
+        .collection("confessions")
+        .doc(id)
+        .get();
+      let likes = confession.data().likes;
+      if (!likes) {
+        likes = [];
+      }
+      likes.push(uid);
 
-        likes = new Set(likes)
-        likedConfessions = new Set(likedConfessions)
+      const user = await firestore.collection("profile").doc(uid).get();
+      let likedConfessions = user.data().likedConfessions;
+      if (!likedConfessions) {
+        likedConfessions = [];
+      }
+      likedConfessions.push(id);
 
-        likes = [...likes]
-        likedConfessions = [...likedConfessions]
+      likes = new Set(likes);
+      likedConfessions = new Set(likedConfessions);
 
-        await firestore.collection('confessions').doc(id).update({
-            likes: likes
-        })
-        await firestore.collection('profile').doc(uid).update({
-            likedConfessions: likedConfessions
-        })
+      likes = [...likes];
+      likedConfessions = [...likedConfessions];
 
-        dispatch({
-            type: LIKE_CONFESSION
-        })
+      await firestore.collection("confessions").doc(id).update({
+        likes: likes,
+      });
+      await firestore.collection("profile").doc(uid).update({
+        likedConfessions: likedConfessions,
+      });
+
+      dispatch({
+        type: LIKE_CONFESSION,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
-export const unlikeConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const unlikeConfession =
+  (id) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const firestore = getFirestore()
+      const firestore = getFirestore();
 
-        const uid = getState().firebase.auth.uid
+      const uid = getState().firebase.auth.uid;
 
-        const confession = await firestore.collection('confessions').doc(id).get()
-        let likes = confession.data().likes
-        likes = likes.filter(id => id !== uid)
+      const confession = await firestore
+        .collection("confessions")
+        .doc(id)
+        .get();
+      let likes = confession.data().likes;
+      likes = likes.filter((id) => id !== uid);
 
-        const user = await firestore.collection('profile').doc(uid).get()
-        let likedConfessions = user.data().likedConfessions
-        likedConfessions = likedConfessions.filter(confessionId => confessionId !== id)
+      const user = await firestore.collection("profile").doc(uid).get();
+      let likedConfessions = user.data().likedConfessions;
+      likedConfessions = likedConfessions.filter(
+        (confessionId) => confessionId !== id
+      );
 
-        await firestore.collection('confessions').doc(id).update({
-            likes: likes
-        })
-        await firestore.collection('profile').doc(uid).update({
-            likedConfessions: likedConfessions
-        })
-        dispatch({
-            type: UNLIKE_CONFESSION
-        })  
+      await firestore.collection("confessions").doc(id).update({
+        likes: likes,
+      });
+      await firestore.collection("profile").doc(uid).update({
+        likedConfessions: likedConfessions,
+      });
+      dispatch({
+        type: UNLIKE_CONFESSION,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
-export const deleteConfession = (id) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const deleteConfession =
+  (id) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const firestore = getFirestore()
-        await firestore.collection('confessions').doc(id).delete()
-        dispatch({
-            type: DELETE_CONFESSION
-        })
+      const firestore = getFirestore();
+      await firestore.collection("confessions").doc(id).delete();
+      dispatch({
+        type: DELETE_CONFESSION,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
-export const updateConfession = (confession) => async (dispatch, getState, { getFirebase, getFirestore }) => {
+export const updateConfession =
+  (confession) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
-        const { content, id } = confession
-        const firestore = getFirestore()
-        await firestore.collection('confessions').doc(id).update({
-            content: content
-        })
-        dispatch({
-            type: UPDATE_CONFESSION
-        })
+      const { content, id } = confession;
+      console.log(confession);
+      const firestore = getFirestore();
+      await firestore.collection("confessions").doc(id).update({
+        content: content,
+      });
+      dispatch({
+        type: UPDATE_CONFESSION,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };

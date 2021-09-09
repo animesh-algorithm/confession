@@ -1,32 +1,34 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
-import HomeScreen from './screens/HomeScreen'
-import Header from './components/Header/Header'
-import SignIn from './components/Auth/SignIn'
-import SignUp from './components/Auth/SignUp'
-import CreateConfession from './components/Confessions/CreateConfession'
-import ConfessionDetail from './components/Confessions/ConfessionDetail'
-import Explore from './components/Explore/Explore'
+import HomeScreen from "./screens/HomeScreen";
+import Header from "./components/Header/Header";
+import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp";
+import CreateConfession from "./components/Confessions/CreateConfession";
+import ConfessionDetail from "./components/Confessions/ConfessionDetail";
+import Explore from "./components/Explore/Explore";
 
-import './App.css'
-import ConfessionsGrid from './components/Confessions/ConfessionsGrid'
+import "./App.css";
+import ConfessionsGrid from "./components/Confessions/ConfessionsGrid";
+import ProfileDetail from "./components/Profile/ProfileDetail";
 
 const App = () => {
   return (
     <Router>
-      <Header className='position-fixed' />
+      <Header className="position-fixed" />
       <main className="py-3 text-white container-fluid">
-          <Route path='/' exact component={HomeScreen} />
-          <Route path='/signin' component={SignIn} />
-          <Route path='/signup' component={SignUp} />
-          <Route path='/confess' component={CreateConfession} />
-          <Route path='/explore' component={Explore} />
-          <Route path='/confession/:id' component={ConfessionDetail} /> 
-          <Route path='/likes' component={ConfessionsGrid} />
+        <Route path="/" exact component={HomeScreen} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/confess" component={CreateConfession} />
+        <Route path="/explore" component={Explore} />
+        <Route path="/confession/:id" component={ConfessionDetail} />
+        <Route path="/likes" component={ConfessionsGrid} />
+        <Route path="/you" component={ProfileDetail} />
       </main>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

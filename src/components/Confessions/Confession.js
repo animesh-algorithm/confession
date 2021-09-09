@@ -58,7 +58,10 @@ const Confession = ({
               <i className="fas fa-edit"></i>
             </Card.Link>
           </LinkContainer>
-          <LinkContainer to="/" onClick={() => deleteConfession(confession.id)}>
+          <LinkContainer
+            to={location.pathname}
+            onClick={() => deleteConfession(confession.id)}
+          >
             <Card.Link className="text-white">
               <i className="fas fa-trash-alt"> </i>
             </Card.Link>

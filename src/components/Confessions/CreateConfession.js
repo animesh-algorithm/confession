@@ -26,7 +26,7 @@ class CreateConfession extends Component {
     if (e.target.innerText === "Edit")
       this.props.editConfession({
         ...this.state,
-        id: this.props.editableConfession.id,
+        id: this.props.editableConfession?.id,
       });
     this.reset();
     this.props.edit(null);
@@ -36,7 +36,7 @@ class CreateConfession extends Component {
       content: "",
     });
   };
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     this.setState({
       content: props.editableConfession
         ? props.editableConfession?.content
