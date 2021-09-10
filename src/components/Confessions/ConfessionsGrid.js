@@ -54,7 +54,8 @@ const ConfessionsGrid = ({ confessions, auth, profile }) => {
     >
       {location.pathname === `/${profile?.username}` ||
       location.pathname === "/" ||
-      location.pathname === "/you" ? (
+      location.pathname === "/you" ||
+      location.pathname === "/explore" ? (
         <CreateConfession editableConfession={editableConfession} edit={edit} />
       ) : null}
       {showConfessions()}

@@ -22,6 +22,8 @@ export const createConfession =
           userFname: "Anonymous",
           userLname: "User",
           userId: "XBODMyuxsjQCw7LDM6ivYt0Atqq1",
+          userAvatar:
+            "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_anonymous.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3",
         });
       } else {
         const profile = getState().firebase.profile;
@@ -33,6 +35,9 @@ export const createConfession =
           userFname: profile.fname,
           userLname: profile.lname,
           userId: uid,
+          userAvatar: profile.avatar
+            ? profile.avatar
+            : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3",
         });
       }
 
@@ -175,7 +180,6 @@ export const updateConfession =
   async (dispatch, getState, { getFirebase, getFirestore }) => {
     try {
       const { content, id } = confession;
-      console.log(confession);
       const firestore = getFirestore();
       await firestore.collection("confessions").doc(id).update({
         content: content,

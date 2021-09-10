@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { signOut } from "../../redux/actions/auth";
 
-const SignedInLinks = ({ signOut }) => {
+const SignedInLinks = ({ signOut, avatar }) => {
   return (
     <Navbar id="basic-navbar-nav" className="right">
       <Nav className="mr-auto">
@@ -36,7 +36,7 @@ const SignedInLinks = ({ signOut }) => {
         <LinkContainer to="/you">
           <Nav.Link>
             <img
-              src="https://avatars.githubusercontent.com/u/48760865?v=4"
+              src={avatar}
               style={{
                 borderRadius: "50%",
                 width: "40px",
@@ -51,10 +51,18 @@ const SignedInLinks = ({ signOut }) => {
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    avatar: state.firebase.profile.avatar
+      ? state.firebase.profile.avatar
+      : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3",
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => dispatch(signOut()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(SignedInLinks);
+export default connect(mapStateToProps, mapDispatchToProps)(SignedInLinks);

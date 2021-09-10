@@ -12,6 +12,7 @@ import Explore from "./components/Explore/Explore";
 import "./App.css";
 import ConfessionsGrid from "./components/Confessions/ConfessionsGrid";
 import ProfileDetail from "./components/Profile/ProfileDetail";
+import EditProfile from "./components/Profile/EditProfile";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <main className="py-3 text-white container-fluid">
         <Switch>
           <Route path="/" exact component={HomeScreen} />
+          <Route path="/profile/edit" component={EditProfile} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/confess" component={CreateConfession} />
@@ -27,7 +29,6 @@ const App = () => {
           <Route path="/confession/:id" component={ConfessionDetail} />
           <Route path="/likes" component={ConfessionsGrid} />
           <Route path="/:username" component={ProfileDetail} />
-
           <Route path="/you" component={ProfileDetail} />
         </Switch>
       </main>

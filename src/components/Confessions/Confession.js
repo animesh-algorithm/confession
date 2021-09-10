@@ -13,6 +13,8 @@ import {
 } from "../../redux/actions/confessions";
 
 import ConfessionsActions from "./ConfessionsActions";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 const Confession = ({
   confession,
@@ -23,6 +25,7 @@ const Confession = ({
   auth,
   deleteConfession,
   edit,
+  profile,
 }) => {
   const location = useLocation();
 
@@ -39,7 +42,9 @@ const Confession = ({
       .fromNow();
   }
 
-  let profilePic = "https://avatars.githubusercontent.com/u/48760865?v=4";
+  let profilePic = confession.userAvatar
+    ? confession.userAvatar
+    : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=15370239-b13b-4d6a-baf2-a421cfeac3a2";
   let profilePicStyles = { borderRadius: "50%", width: "50px", height: "50px" };
   let readMore =
     location.pathname === `/confession/${confession.id}` ? "" : " Read More...";
@@ -114,10 +119,13 @@ const Confession = ({
 };
 
 const mapStateToProps = (state) => {
+  const profiles = state.firestore.data.profile;
+  const profile = profiles ? profiles[state.firebase.auth.uid] : null;
   return {
     followers: state.firebase.profile.followers,
     following: state.firebase.profile.following,
     auth: state.firebase.auth,
+    profile: profile,
   };
 };
 
@@ -129,4 +137,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Confession);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => [{ collection: "profile", doc: props.auth.uid }])
+)(Confession);

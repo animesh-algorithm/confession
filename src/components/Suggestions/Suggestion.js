@@ -13,6 +13,7 @@ const Suggestion = ({
   followUser,
   auth,
   unfollowUser,
+  defaultAvatar,
 }) => {
   const handleFollow = () => {
     if (auth.uid) {
@@ -24,7 +25,7 @@ const Suggestion = ({
   return (
     <Row className="m-auto">
       <Card.Img
-        src="https://avatars.githubusercontent.com/u/48760865?v=4"
+        src={suggestion?.avatar ? suggestion?.avatar : defaultAvatar}
         className="mr-2"
         style={{ borderRadius: "50%", width: "50px", height: "50px" }}
       />
@@ -64,6 +65,8 @@ const mapStateToProps = (state) => {
   return {
     followers: state.firebase.profile.followers,
     following: state.firebase.profile.following,
+    defaultAvatar:
+      "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3",
     auth: state.firebase.auth,
   };
 };
