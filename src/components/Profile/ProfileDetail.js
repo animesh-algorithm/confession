@@ -8,10 +8,26 @@ import { LinkContainer } from "react-router-bootstrap";
 import ConfessionsGrid from "../Confessions/ConfessionsGrid";
 import { useLocation } from "react-router";
 
+import Followers from "./DialogBox/Followers/Followers";
+import Followings from "./DialogBox/Followings/Followings";
+import { useState } from "react";
+
 const ProfileDetail = ({ profile, confessions, match, auth }) => {
+  const [showPopUp, setshowPopUp] = useState(false);
+  const [showFollowings, setShowFollowings] = useState(false);
   const location = useLocation();
   return (
     <div className="container">
+      <Followers
+        showPopUp={showPopUp}
+        setshowPopUp={setshowPopUp}
+        profile={profile}
+      />
+      <Followings
+        showFollowings={showFollowings}
+        setShowFollowings={setShowFollowings}
+        profile={profile}
+      />
       <Row>
         <Col xs={12} md={4} lg={4} xl={4}>
           <Image
@@ -52,8 +68,21 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
             <p className="lead">
               {`${confessions?.length | 0} Confessions`} &nbsp;&nbsp;·
               &nbsp;&nbsp;
-              {`${profile?.followers?.length | 0} Followers`} &nbsp;&nbsp;·
-              &nbsp;&nbsp;{`${profile?.following?.length | 0} Following`}
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  setshowPopUp(true);
+                }}
+              >{`${profile?.followers?.length | 0} Followers`}</span>
+              &nbsp;&nbsp;· &nbsp;&nbsp;
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  setShowFollowings(true);
+                }}
+              >
+                {`${profile?.following?.length | 0} Following`}
+              </span>
             </p>
           ) : (
             <>
@@ -123,9 +152,6 @@ export default compose(
       collection: "confessions",
       orderBy: ["createdAt", "desc"],
       startAfter: 0,
-    },
-    {
-      collection: "profiles",
     },
   ])
 )(ProfileDetail);
