@@ -4,6 +4,8 @@ import { Row, Col, Card, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { deleteComment } from "../../redux/actions/comments";
+import CommentActions from "./CommentActions";
+import { useHistory } from "react-router";
 
 const Comment = ({
   comment,
@@ -14,6 +16,7 @@ const Comment = ({
   editable,
   edit,
 }) => {
+  const history = useHistory();
   let userProfilePic = profile?.avatar
     ? profile?.avatar
     : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3";
@@ -54,7 +57,10 @@ const Comment = ({
   return (
     <div>
       <Row>
-        <Col style={{ maxWidth: "60px" }}>
+        <Col
+          style={{ maxWidth: "60px", cursor: "pointer" }}
+          onClick={() => history.push(`/${username}`)}
+        >
           <Card.Img
             src={userProfilePic}
             className="mr-2"
@@ -70,7 +76,12 @@ const Comment = ({
         </Col>
         <Col>{editAndDeleteButton()}</Col>
       </Row>
-      <Container>{comment.content}</Container>
+      <Row>
+        <Container>{comment.content}</Container>
+      </Row>
+      <Row>
+        <CommentActions comment={comment} />
+      </Row>
     </div>
   );
 };

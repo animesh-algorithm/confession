@@ -1,7 +1,9 @@
 import {
   CREATE_COMMENT,
   DELETE_COMMENT,
+  DISLIKE_COMMENT,
   EDIT_COMMENT,
+  LIKE_COMMENT,
 } from "../constants/comments";
 
 const initState = {
@@ -23,6 +25,12 @@ export default (state = initState, action) => {
       return state;
     case EDIT_COMMENT:
       console.log("edit confession success");
+      return state;
+    case LIKE_COMMENT:
+      console.log("like comment success");
+      return state;
+    case DISLIKE_COMMENT:
+      console.log("dislike comment success");
       return state;
     default:
       return state;

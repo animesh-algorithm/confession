@@ -2,6 +2,8 @@ import {
   CREATE_COMMENT,
   DELETE_COMMENT,
   EDIT_COMMENT,
+  LIKE_COMMENT,
+  DISLIKE_COMMENT,
 } from "../constants/comments";
 
 export const createComment =
@@ -136,6 +138,78 @@ export const editComment =
       });
       dispatch({
         type: EDIT_COMMENT,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const likeComment =
+  (commentId) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+      const firestore = getFirestore();
+      const userId = getState().firebase.auth.uid;
+      const comment = await firestore
+        .collection("comments")
+        .doc(commentId)
+        .get();
+      let likes = comment.data().likes;
+      if (!likes) {
+        likes = [];
+      }
+      likes.push(userId);
+
+      const user = await firestore.collection("profile").doc(userId).get();
+      let likedComment = user.data().likedComment;
+      if (!likedComment) {
+        likedComment = [];
+      }
+      likedComment.push(commentId);
+      likes = new Set(likes);
+      likedComment = new Set(likedComment);
+
+      likes = [...likes];
+      likedComment = [...likedComment];
+
+      await firestore.collection("comments").doc(commentId).update({
+        likes: likes,
+      });
+      await firestore.collection("profile").doc(userId).update({
+        likedComment: likedComment,
+      });
+      dispatch({
+        type: LIKE_COMMENT,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+export const dislikeComment =
+  (commentId) =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+      const firestore = getFirestore();
+      const userId = getState().firebase.auth.uid;
+      const comment = await firestore
+        .collection("comments")
+        .doc(commentId)
+        .get();
+      let likes = comment.data().likes;
+      likes = likes.filter((id) => id !== userId);
+      const user = await firestore.collection("profile").doc(userId).get();
+      let likedComment = user.data().likedComment;
+      likedComment = likedComment.filter((id) => id !== commentId);
+
+      await firestore.collection("comments").doc(commentId).update({
+        likes: likes,
+      });
+      await firestore.collection("profile").doc(userId).update({
+        likedComment: likedComment,
+      });
+      dispatch({
+        type: DISLIKE_COMMENT,
       });
     } catch (error) {
       console.log(error);
