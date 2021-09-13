@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { deleteComment } from "../../redux/actions/comments";
 import CommentActions from "./CommentActions";
 import { useHistory } from "react-router";
+import { followUser, unfollowUser } from "../../redux/actions/follow";
 
 const Comment = ({
   comment,
@@ -15,6 +16,8 @@ const Comment = ({
   setEditable,
   editable,
   edit,
+  followUser,
+  unfollowUser,
 }) => {
   const history = useHistory();
   let userProfilePic = profile?.avatar
@@ -27,8 +30,11 @@ const Comment = ({
   if (timestamp.startsWith("in")) {
     timestamp = moment(comment.createdAt.toDate()).startOf("minutes").fromNow();
   }
+  const handleAuthAction = (e) => {
+    if (e.target.innerHTML === "Follow") followUser(comment.userId);
+  };
   const editAndDeleteButton = () => (
-    <span className="m-3">
+    <span className="float-right">
       {auth.uid === comment.userId ? (
         <>
           <LinkContainer
@@ -74,13 +80,34 @@ const Comment = ({
             <span className="mb-2 text-muted">{userFullName}</span>
           </Card.Text>
         </Col>
-        <Col>{editAndDeleteButton()}</Col>
+        <Col>
+          <LinkContainer to="#">
+            {comment.userId === "XBODMyuxsjQCw7LDM6ivYt0Atqq1" ? (
+              <Card.Link className="float-right text-white"></Card.Link>
+            ) : profile?.followers?.includes(auth.uid) ? (
+              <Card.Link
+                className="float-right text-white"
+                onClick={() => unfollowUser(comment.userId)}
+              >
+                Unfollow
+              </Card.Link>
+            ) : (
+              <Card.Link
+                className="float-right text-white"
+                onClick={() => followUser(comment.userId)}
+              >
+                Follow
+              </Card.Link>
+            )}
+          </LinkContainer>
+        </Col>
       </Row>
       <Row>
         <Container>{comment.content}</Container>
       </Row>
       <Row>
         <CommentActions comment={comment} />
+        <Col>{editAndDeleteButton()}</Col>
       </Row>
     </div>
   );
@@ -95,6 +122,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteComment: (id) => dispatch(deleteComment(id)),
+    followUser: (id) => dispatch(followUser(id)),
+    unfollowUser: (id) => dispatch(unfollowUser(id)),
   };
 };
 

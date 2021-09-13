@@ -1,11 +1,10 @@
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import { dislikeComment, likeComment } from "../../redux/actions/comments";
 
 const CommentActions = ({ likeComment, dislikeComment, comment, auth }) => {
   const handleAuthAction = (e) => {
     if (auth.uid) {
-      //   if (e.target.innerHTML === "Follow") followUser(comment.userId);
       if (
         e.target.className === "fas fa-heart" ||
         e.target.className === "far fa-heart"
@@ -21,7 +20,7 @@ const CommentActions = ({ likeComment, dislikeComment, comment, auth }) => {
     }
   };
   return (
-    <Container>
+    <Col>
       <Card.Link className="text-white" onClick={handleAuthAction}>
         <i
           className={`${
@@ -39,7 +38,7 @@ const CommentActions = ({ likeComment, dislikeComment, comment, auth }) => {
       >
         <i className={`far fa-comment`}> {0} </i>
       </Card.Link>
-    </Container>
+    </Col>
   );
 };
 
