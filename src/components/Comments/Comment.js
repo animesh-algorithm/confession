@@ -14,7 +14,9 @@ const Comment = ({
   editable,
   edit,
 }) => {
-  let userProfilePic = "https://avatars.githubusercontent.com/u/48760865?v=4";
+  let userProfilePic = profile?.avatar
+    ? profile?.avatar
+    : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3";
   let profilePicStyles = { borderRadius: "50%", width: "50px", height: "50px" };
   let username = profile?.username;
   let userFullName = `${profile?.fname} ${profile?.lname}`;

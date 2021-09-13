@@ -3,51 +3,102 @@ import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import { Row, Col, Card, Image } from "react-bootstrap";
 import { useState } from "react";
-import firebase from "../../config/fbConfig";
 import { updateProfile } from "../../redux/actions/users";
-
+import { useHistory } from "react-router";
 const EditProfile = ({ auth, profile, updateProfile }) => {
-  const [userProfile, setUserProfile] = useState({});
+  const history = useHistory();
+  const [userProfile, setUserProfile] = useState({
+    username: profile.username,
+    fname: profile.fname,
+    lname: profile.lname,
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
-    let file = userProfile.avatar;
-    updateProfile(auth.uid, file);
+    let avatar = userProfile.avatar ? userProfile.avatar : null;
+    updateProfile(auth.uid, avatar, userProfile);
+    history.push(`/${profile.username}`);
   };
 
   return (
-    <div className="container text-center">
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <Image
-          id="profile-avatar"
-          src={
-            profile?.avatar
-              ? profile?.avatar
-              : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3"
-          }
-          width="100"
-          height="100"
-          roundedCircle
-        />
-        <div className="text-center">
-          <input
-            id="avatar"
-            type="file"
-            placeholder="Edit Avatar"
-            className="d-none"
-            onChange={(e) =>
-              setUserProfile({ ...userProfile, avatar: e.target.files[0] })
+    <div className="text-center row justify-content-center align-items-center">
+      <div className="col col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <Image
+            id="profile-avatar"
+            src={
+              profile?.avatar
+                ? profile?.avatar
+                : "https://firebasestorage.googleapis.com/v0/b/confessions-ef73b.appspot.com/o/avatars%2Favatar_default.png?alt=media&token=2ea9f8bf-ab92-4e71-b59e-af4875842be3"
             }
+            width="100"
+            height="100"
+            roundedCircle
           />
-          <label htmlFor="avatar" className="cursor-pointer">
-            <Card.Link className="text-white">
-              Edit Avatar <i className="fas fa-edit"></i>
-            </Card.Link>
-          </label>
-        </div>
-        <button className="w-25 btn btn-block btn-secondary btn-sm">
-          Make Changes
-        </button>
-      </form>
+          <div className="text-center">
+            <input
+              id="avatar"
+              type="file"
+              placeholder="Edit Avatar"
+              className="d-none"
+              onChange={(e) =>
+                setUserProfile({ ...userProfile, avatar: e.target.files[0] })
+              }
+            />
+            <label htmlFor="avatar" className="cursor-pointer">
+              <Card.Link className="text-white">
+                Edit Avatar <i className="fas fa-edit"></i>
+              </Card.Link>
+            </label>
+            <br />
+          </div>
+          <div className="form-group">
+            <div className="">
+              <input
+                type="text"
+                placeholder="Edit username"
+                className="form-control"
+                value={userProfile.username}
+                onChange={(e) =>
+                  setUserProfile({ ...userProfile, username: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="row">
+              <div className="col">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="form-control"
+                  value={userProfile.fname}
+                  onChange={(e) =>
+                    setUserProfile({ ...userProfile, fname: e.target.value })
+                  }
+                />
+              </div>
+              <div className="col">
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="form-control"
+                  value={userProfile.lname}
+                  onChange={(e) =>
+                    setUserProfile({ ...userProfile, lname: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="">
+              <button className="btn btn-block btn-secondary btn-sm">
+                Make Changes
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
@@ -63,7 +114,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateProfile: (id, file) => dispatch(updateProfile(id, file)),
+    updateProfile: (id, file, updatedProfile) =>
+      dispatch(updateProfile(id, file, updatedProfile)),
   };
 };
 

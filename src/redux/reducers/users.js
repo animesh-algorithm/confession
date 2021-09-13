@@ -12,6 +12,7 @@ export default (state = initState, action) => {
         users: action.snapshots,
       };
     case UPDATE_PROFILE:
+      console.log("profile updated");
       return state;
     default:
       return state;
