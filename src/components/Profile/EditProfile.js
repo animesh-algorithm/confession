@@ -16,7 +16,7 @@ const EditProfile = ({ auth, profile, updateProfile }) => {
     e.preventDefault();
     let avatar = userProfile.avatar ? userProfile.avatar : null;
     updateProfile(auth.uid, avatar, userProfile);
-    history.push(`/${profile.username}`);
+    history.push(`/${userProfile.username}`);
   };
 
   return (
