@@ -1,4 +1,5 @@
 import { GET_USERS, UPDATE_PROFILE } from "../constants/users";
+import axios from "axios";
 
 export const getUsers =
   () =>
@@ -51,6 +52,33 @@ export const updateProfile =
                 })
               );
           });
+        const profile = await firestore
+          .collection("profile")
+          .doc(id)
+          .get()
+          .then((snapshot) => snapshot.data());
+        const chatProfile = {
+          email: getState().firebase.auth.email,
+          username: updatedProfile.username,
+          secret: uid,
+          avatar: file,
+        };
+        let formdata = new FormData();
+
+        for (let key in chatProfile) {
+          formdata.append(key, chatProfile[key]);
+        }
+        await axios
+          .patch(
+            `https://api.chatengine.io/users/${profile.chatAppId}`,
+            formdata,
+            {
+              headers: {
+                "private-key": process.env.REACT_APP_CHAT_ENGINE_PRIVATE_KEY,
+              },
+            }
+          )
+          .then((res) => console.log(res));
       }
       await firestore.collection("profile").doc(id).update({
         fname: updatedProfile.fname,

@@ -13,7 +13,7 @@ const SignedInLinks = ({ signOut, avatar }) => {
             <i className="fas fa-home"></i>
           </Nav.Link>
         </LinkContainer>
-        <LinkContainer to="/messenger">
+        <LinkContainer to="/chat">
           <Nav.Link>
             <i className="fas fa-comments"></i>
           </Nav.Link>

@@ -37,3 +37,12 @@ hr {
 i:hover {
   cursor: pointer;
 }
+#chat-app div {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}

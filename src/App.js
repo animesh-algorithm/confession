@@ -13,12 +13,17 @@ import "./App.css";
 import ConfessionsGrid from "./components/Confessions/ConfessionsGrid";
 import ProfileDetail from "./components/Profile/ProfileDetail";
 import EditProfile from "./components/Profile/EditProfile";
+import Chat from "./components/Chat/Chat";
 
 const App = () => {
   return (
     <Router>
       <Header className="position-fixed" />
-      <main className="py-3 text-white container-fluid">
+      <main
+        className={`${
+          window.location.href.includes("chat") ? "" : "py-3"
+        } text-white container-fluid`}
+      >
         <Switch>
           <Route path="/" exact component={HomeScreen} />
           <Route path="/profile/edit" component={EditProfile} />
@@ -26,9 +31,13 @@ const App = () => {
           <Route path="/signup" component={SignUp} />
           <Route path="/confess" component={CreateConfession} />
           <Route path="/explore" component={Explore} />
+
           <Route path="/confession/:id" component={ConfessionDetail} />
           <Route path="/likes" component={ConfessionsGrid} />
+          <Route path="/chat" exact component={Chat} />
+
           <Route path="/:username" component={ProfileDetail} />
+
           <Route path="/you" component={ProfileDetail} />
         </Switch>
       </main>
