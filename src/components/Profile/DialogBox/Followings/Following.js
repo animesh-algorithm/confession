@@ -10,7 +10,6 @@ const Following = ({
   followUser,
   unfollowUser,
 }) => {
-  console.log(userFollowings, following.id);
   let profilePicStyles = {
     borderRadius: "50%",
     width: "50px",

@@ -25,6 +25,55 @@ export const signIn =
     }
   };
 
+export const signInWithGoogle =
+  () =>
+  async (dispatch, getState, { getFirebase, getFirestore }) => {
+    try {
+      const firebase = getFirebase();
+      const firestore = getFirestore();
+      const GoogleProvider = new firebase.auth.GoogleAuthProvider();
+      const response = await firebase.auth().signInWithPopup(GoogleProvider);
+      const chatProfile = {
+        email: response.user.email,
+        username: response.user.email.split("@")[0],
+        secret: response.user.uid,
+      };
+      let formdata = new FormData();
+
+      for (let key in chatProfile) {
+        formdata.append(key, chatProfile[key]);
+      }
+      let chatAppId;
+      await axios
+        .post("https://api.chatengine.io/users/", formdata, {
+          headers: {
+            "private-key": process.env.REACT_APP_CHAT_ENGINE_PRIVATE_KEY,
+          },
+        })
+        .then((response) => (chatAppId = response.data.id));
+
+      await firestore
+        .collection("profile")
+        .doc(response.user.uid)
+        .set({
+          fname: response.user.displayName.split(" ")[0],
+          lname: response.user.displayName.split(" ")[1],
+          username: response.user.email.split("@")[0],
+          followers: [response.user.uid],
+          following: [response.user.uid],
+          chatAppId: chatAppId,
+        });
+      dispatch({
+        type: SIGNIN_SUCCESS,
+      });
+    } catch (error) {
+      dispatch({
+        type: SIGNUP_ERROR,
+        error,
+      });
+    }
+  };
+
 export const signUp =
   (credentials) =>
   async (dispatch, getState, { getFirebase, getFirestore }) => {

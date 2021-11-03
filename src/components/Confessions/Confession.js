@@ -16,6 +16,15 @@ import ConfessionsActions from "./ConfessionsActions";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  RedditShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+} from "react-share";
+
 const Confession = ({
   confession,
   followUser,
@@ -107,6 +116,52 @@ const Confession = ({
           <Card.Link className="text-secondary">{readMore}</Card.Link>
         </LinkContainer>
       </Container>
+      {location.pathname === `/confession/${confession.id}` ? (
+        <Row className="ml-2">
+          <FacebookShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fab fa-facebook" style={{ fontSize: "30px" }}></i>
+          </FacebookShareButton>
+          <TwitterShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fab fa-twitter" style={{ fontSize: "30px" }}></i>
+          </TwitterShareButton>
+          <LinkedinShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fab fa-linkedin" style={{ fontSize: "30px" }}></i>
+          </LinkedinShareButton>
+          <RedditShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fab fa-reddit" style={{ fontSize: "30px" }}></i>
+          </RedditShareButton>
+          <WhatsappShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fab fa-whatsapp" style={{ fontSize: "30px" }}></i>
+          </WhatsappShareButton>
+          <EmailShareButton
+            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            quote={content}
+            hashtag="#confession"
+          >
+            <i className="m-1 fas fa-envelope" style={{ fontSize: "30px" }}></i>
+          </EmailShareButton>
+        </Row>
+      ) : null}
       <Card className="pt-2 pb-2 pl-3 pr-3" style={cardStyle}>
         <ConfessionsActions
           following={following}

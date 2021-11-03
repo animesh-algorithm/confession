@@ -8,8 +8,9 @@ import Confession from "./Confession";
 import CreateConfession from "./CreateConfession";
 
 import CommentSection from "../Comments/CommentSection";
+import ConfessionGrid from "../Confessions/ConfessionsGrid";
 
-const ConfessionDetail = ({ confession, auth }) => {
+const ConfessionDetail = ({ confession, auth, confessions }) => {
   const [editableConfession, setEditableConfession] = useState(null);
   const edit = (confession) => {
     setEditableConfession(confession);
@@ -22,14 +23,16 @@ const ConfessionDetail = ({ confession, auth }) => {
           <br />
           <CommentSection confession={confession} />
         </Col>
-        {confession.userId === auth.uid ? (
-          <Col lg={4} md={4} sm={12}>
+        <Col lg={4} md={4} sm={12}>
+          {confession.userId === auth.uid ? (
             <CreateConfession
               editableConfession={editableConfession}
               edit={edit}
             />
-          </Col>
-        ) : null}
+          ) : (
+            <ConfessionGrid confessions={confessions} />
+          )}
+        </Col>
       </Row>
     </Container>
   );
@@ -43,6 +46,7 @@ const mapStateToProps = (state, props) => {
   return {
     confession: confession,
     auth: state.firebase.auth,
+    confessions: state.firestore.ordered.confessions,
   };
 };
 
@@ -50,5 +54,6 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect((props) => [
     { collection: "confessions", doc: props.match.params.id },
+    { collection: "confessions" },
   ])
 )(ConfessionDetail);

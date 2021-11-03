@@ -12,6 +12,15 @@ import Followers from "./DialogBox/Followers/Followers";
 import Followings from "./DialogBox/Followings/Followings";
 import { useState } from "react";
 
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  RedditShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+} from "react-share";
+
 const ProfileDetail = ({ profile, confessions, match, auth }) => {
   const [showPopUp, setshowPopUp] = useState(false);
   const [showFollowings, setShowFollowings] = useState(false);
@@ -62,8 +71,53 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
               </LinkContainer>
             </Col>
           </Row>
-          <br />
-          <br />
+          <Row className="mt-2 mb-2" style={{ marginLeft: "-5px" }}>
+            <FacebookShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i
+                className="m-1 fab fa-facebook"
+                style={{ fontSize: "30px" }}
+              ></i>
+            </FacebookShareButton>
+            <TwitterShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i
+                className="m-1 fab fa-twitter"
+                style={{ fontSize: "30px" }}
+              ></i>
+            </TwitterShareButton>
+            <LinkedinShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i
+                className="m-1 fab fa-linkedin"
+                style={{ fontSize: "30px" }}
+              ></i>
+            </LinkedinShareButton>
+            <RedditShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i className="m-1 fab fa-reddit" style={{ fontSize: "30px" }}></i>
+            </RedditShareButton>
+            <WhatsappShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i
+                className="m-1 fab fa-whatsapp"
+                style={{ fontSize: "30px" }}
+              ></i>
+            </WhatsappShareButton>
+            <EmailShareButton
+              url={`https://letsconfess.netlify.app/${profile?.username}`}
+            >
+              <i
+                className="m-1 fas fa-envelope"
+                style={{ fontSize: "30px" }}
+              ></i>
+            </EmailShareButton>
+          </Row>
           {location.pathname !== "/anonymous" ? (
             <p className="lead">
               {`${confessions?.length | 0} Confessions`} &nbsp;&nbsp;·

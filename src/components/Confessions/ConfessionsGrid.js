@@ -42,7 +42,8 @@ const ConfessionsGrid = ({ confessions, auth, profile }) => {
         : (confessions?.length === 1 &&
             location.pathname !== `/${profile.username}` &&
             location.pathname !== "/you") ||
-          confessions?.length === 0
+          confessions?.length === 0 ||
+          location.pathname.startsWith("/confession")
         ? 1
         : 3,
     1100: 2,
