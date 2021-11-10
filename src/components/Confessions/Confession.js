@@ -119,42 +119,42 @@ const Confession = ({
       {location.pathname === `/confession/${confession.id}` ? (
         <Row className="ml-2">
           <FacebookShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >
             <i className="m-1 fab fa-facebook" style={{ fontSize: "30px" }}></i>
           </FacebookShareButton>
           <TwitterShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >
             <i className="m-1 fab fa-twitter" style={{ fontSize: "30px" }}></i>
           </TwitterShareButton>
           <LinkedinShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >
             <i className="m-1 fab fa-linkedin" style={{ fontSize: "30px" }}></i>
           </LinkedinShareButton>
           <RedditShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >
             <i className="m-1 fab fa-reddit" style={{ fontSize: "30px" }}></i>
           </RedditShareButton>
           <WhatsappShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >
             <i className="m-1 fab fa-whatsapp" style={{ fontSize: "30px" }}></i>
           </WhatsappShareButton>
           <EmailShareButton
-            url={`https://letsconfess.netlify.app/confession/${confession.id}`}
+            url={`https://conphession.netlify.app/confession/${confession.id}`}
             quote={content}
             hashtag="#confession"
           >

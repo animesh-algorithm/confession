@@ -73,7 +73,7 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
           </Row>
           <Row className="mt-2 mb-2" style={{ marginLeft: "-5px" }}>
             <FacebookShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i
                 className="m-1 fab fa-facebook"
@@ -81,7 +81,7 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
               ></i>
             </FacebookShareButton>
             <TwitterShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i
                 className="m-1 fab fa-twitter"
@@ -89,7 +89,7 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
               ></i>
             </TwitterShareButton>
             <LinkedinShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i
                 className="m-1 fab fa-linkedin"
@@ -97,12 +97,12 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
               ></i>
             </LinkedinShareButton>
             <RedditShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i className="m-1 fab fa-reddit" style={{ fontSize: "30px" }}></i>
             </RedditShareButton>
             <WhatsappShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i
                 className="m-1 fab fa-whatsapp"
@@ -110,7 +110,7 @@ const ProfileDetail = ({ profile, confessions, match, auth }) => {
               ></i>
             </WhatsappShareButton>
             <EmailShareButton
-              url={`https://letsconfess.netlify.app/${profile?.username}`}
+              url={`https://conphession.netlify.app/${profile?.username}`}
             >
               <i
                 className="m-1 fas fa-envelope"
